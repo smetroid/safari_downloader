@@ -1,6 +1,7 @@
 {
     "url":"https://www.safaribooksonline.com/library/view/java-8-fundamentals/9780133489354/",
-    "username":"kutty",
-    "password":"123456",
-    "errlog":"err.log"
+    "username":"",
+    "password":"",
+    "errlog":"err.log",
+    "datafile":"data.txt"
 }

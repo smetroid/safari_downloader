@@ -7,11 +7,12 @@ import (
 )
 
 type Config struct {
-	Url    string `json:"url"`
-	User   string `json:"username"`
-	Pass   string `json:"pass"`
-	File   string `json:"errlog"`
-	Logger *log.Logger
+	Url      string `json:"url"`
+	User     string `json:"username"`
+	Pass     string `json:"pass"`
+	File     string `json:"errlog"`
+	DataFile string `json:"datafile"`
+	Logger   *log.Logger
 }
 
 func ReadConfig() Config {
