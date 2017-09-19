@@ -14,6 +14,11 @@ func main() {
 	//------> Create file
 	err := jobs.CreateDataFile(&config)
 	if err != nil {
-		config.Logger.Println(err.Error)
+		config.Logger.Println(err.Error())
+	}
+	//------>Download all files
+	err = jobs.DownloadFiles(&config)
+	if err != nil{
+		config.Logger.Println(err.Error())
 	}
 }

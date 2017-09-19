@@ -8,10 +8,12 @@ import (
 
 type Config struct {
 	Url      string `json:"url"`
+	Prefix   string `json:"prefix"`
 	User     string `json:"username"`
 	Pass     string `json:"pass"`
 	File     string `json:"errlog"`
 	DataFile string `json:"datafile"`
+	Destination string `json:"destination"`
 	Logger   *log.Logger
 }
 

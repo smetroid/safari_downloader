@@ -5,11 +5,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
-	"fmt"
 	"regexp"
 	"safari_downloader/conf"
 	"strings"
-	"strconv"
 )
 
 //CreateDataFile create formated files with neccessary data from url
@@ -48,23 +46,24 @@ func CreateDataFile(config *conf.Config) error {
 	defer dataFile.Close()
 
 	result := re.FindAllString(subData, -1)
-	for i, v := range result {
+	for _, v := range result {
+		//---------->extract url from the line
 		urlreg, err := regexp.Compile(`href=\".*html\"`)
 		if err != nil {
 			return err
 		}
 		u := urlreg.FindString(v)
-		dataFile.WriteString(u+strconv.Itoa(i)+"\n")
-		
-		headreg , err := regexp.Compile(`>.*:.*<`)
+		dataFile.WriteString(u+"\n")
+		//--------->extract heading from the line
+		headreg , err := regexp.Compile(`>.*<`)
 		if err != nil{
 			return err
 		}
+		//-------->checking for empty heading
 		h := headreg.FindString(v)
-		dataFile.WriteString(h+strconv.Itoa(i)+"\n")		
-		
-		fmt.Println(h,i)
-		
+		if len(h)!= 0{
+			dataFile.WriteString("head="+h[1:len(h)-1]+"\n")				
+		}
 	}
 	return nil
 }
