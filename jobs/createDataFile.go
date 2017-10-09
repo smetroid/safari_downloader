@@ -8,18 +8,22 @@ import (
 	"regexp"
 	"safari_downloader/conf"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 //CreateDataFile create formated files with neccessary data from url
 func CreateDataFile(config *conf.Config) error {
-	//--------->get url
+	errfun := color.New(color.Bold, color.FgHiRed).PrintlnFunc()
+
+	//---------get url
 	res, err := http.Get(config.Url)
 	if err != nil {
 		return err
 	}
 
 	defer res.Body.Close()
-	//--------> read all contents from url
+	//-------- read all contents from url
 	html, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return err
@@ -28,6 +32,7 @@ func CreateDataFile(config *conf.Config) error {
 	fullData := string(html)
 	index := strings.Index(fullData, "Table of Contents")
 	if index < 0 {
+		errfun("Table of Contents not exists")
 		return errors.New("Table of Contents not exists")
 	} else if !strings.Contains(fullData, "href") {
 		return errors.New("There is no documents exits in this link")
@@ -53,16 +58,16 @@ func CreateDataFile(config *conf.Config) error {
 			return err
 		}
 		u := urlreg.FindString(v)
-		dataFile.WriteString(u+"\n")
+		dataFile.WriteString(u + "\n")
 		//--------->extract heading from the line
-		headreg , err := regexp.Compile(`>.*<`)
-		if err != nil{
+		headreg, err := regexp.Compile(`>.*<`)
+		if err != nil {
 			return err
 		}
 		//-------->checking for empty heading
 		h := headreg.FindString(v)
-		if len(h)!= 0{
-			dataFile.WriteString("head="+h[1:len(h)-1]+"\n")				
+		if len(h) != 0 {
+			dataFile.WriteString("head=" + h[1:len(h)-1] + "\n")
 		}
 	}
 	return nil
