@@ -37,3 +37,8 @@ ERROR :2017/10/09 18:42:54 main.go:30: mkdir /home/georgekutty/Documents/safari:
 ERROR :2017/10/09 18:42:57 main.go:29: mkdir /home/georgekutty/Documents/safari: file exists
 ERROR :2017/10/09 18:43:07 main.go:31: mkdir /home/georgekutty/Documents/safari: file exists
 ERROR :2017/10/09 19:09:46 main.go:31: mkdir /home/georgekutty/Documents/safari: file exists
+ERROR :2017/10/09 20:27:51 main.go:31: mkdir /home/georgekutty/Documents/safari: no such file or directory
+ERROR :2017/10/09 20:44:10 main.go:31: mkdir /home/georgekutty/Documents/safari: no such file or directory
+ERROR :2017/10/09 20:45:45 main.go:31: mkdir /home/georgekutty/Documents/safari: no such file or directory
+ERROR :2017/10/09 20:53:36 main.go:31: mkdir /home/georgekutty/Documents/safari: no such file or directory
+ERROR :2017/10/09 20:54:38 main.go:31: mkdir /home/georgekutty/Documents/safari: no such file or directory

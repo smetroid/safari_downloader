@@ -43,7 +43,14 @@ func CreateDataFile(config *conf.Config) error {
 	if err != nil {
 		return err
 	}
-
+	//-----------remove file if exist
+	if _, err := os.Stat(config.DataFile); os.IsExist(err) {
+		err = os.Remove(config.DataFile)
+		if err != nil {
+			return err
+		}
+	}
+	//---------create new result file
 	dataFile, err := os.Create(config.DataFile)
 	if err != nil {
 		return err
@@ -52,22 +59,27 @@ func CreateDataFile(config *conf.Config) error {
 
 	result := re.FindAllString(subData, -1)
 	for _, v := range result {
-		//---------->extract url from the line
+		//----------extract url from the line
 		urlreg, err := regexp.Compile(`href=\".*html\"`)
 		if err != nil {
 			return err
 		}
-		u := urlreg.FindString(v)
-		dataFile.WriteString(u + "\n")
-		//--------->extract heading from the line
+		url := urlreg.FindString(v)
+
+		finalurl := strings.TrimLeft(strings.TrimLeft(url, "href="), " ")
+		if len(finalurl) != 0 {
+			dataFile.WriteString("l=" + finalurl + "\n")
+
+		}
+		//---------extract heading from the line
 		headreg, err := regexp.Compile(`>.*<`)
 		if err != nil {
 			return err
 		}
-		//-------->checking for empty heading
+		//--------checking for empty heading
 		h := headreg.FindString(v)
 		if len(h) != 0 {
-			dataFile.WriteString("head=" + h[1:len(h)-1] + "\n")
+			dataFile.WriteString("f=" + h[1:len(h)-1] + "\n")
 		}
 	}
 	return nil
