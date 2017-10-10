@@ -8,14 +8,10 @@ import (
 	"regexp"
 	"safari_downloader/conf"
 	"strings"
-
-	"github.com/fatih/color"
 )
 
 //CreateDataFile create formated files with neccessary data from url
 func CreateDataFile(config *conf.Config) error {
-	errfun := color.New(color.Bold, color.FgHiRed).PrintlnFunc()
-
 	//---------get url
 	res, err := http.Get(config.Url)
 	if err != nil {
@@ -32,18 +28,17 @@ func CreateDataFile(config *conf.Config) error {
 	fullData := string(html)
 	index := strings.Index(fullData, "Table of Contents")
 	if index < 0 {
-		errfun("Table of Contents not exists")
 		return errors.New("Table of Contents not exists")
 	} else if !strings.Contains(fullData, "href") {
-		return errors.New("There is no documents exits in this link")
+		return errors.New("There is no video documents exits in this link")
 	}
-
+	//--------- extract all documents links form table of contents
 	subData := fullData[index:]
 	re, err := regexp.Compile(`<a.*>`)
 	if err != nil {
 		return err
 	}
-	//-----------remove file if exist
+	//--------- remove file if exist
 	if _, err := os.Stat(config.DataFile); os.IsExist(err) {
 		err = os.Remove(config.DataFile)
 		if err != nil {
@@ -69,7 +64,6 @@ func CreateDataFile(config *conf.Config) error {
 		finalurl := strings.TrimLeft(strings.TrimLeft(url, "href="), " ")
 		if len(finalurl) != 0 {
 			dataFile.WriteString("l=" + finalurl + "\n")
-
 		}
 		//---------extract heading from the line
 		headreg, err := regexp.Compile(`>.*<`)
@@ -77,9 +71,18 @@ func CreateDataFile(config *conf.Config) error {
 			return err
 		}
 		//--------checking for empty heading
-		h := headreg.FindString(v)
-		if len(h) != 0 {
-			dataFile.WriteString("f=" + h[1:len(h)-1] + "\n")
+		head := headreg.FindString(v)
+		if len(head) != 0 {
+			//----------folder name
+			matchSession, _ := regexp.MatchString(`^>(Lesson|Chapter|SECTION)\s*[0-9]*\s*:`, head)
+			if matchSession {
+				dataFile.WriteString("f=" + head[1:len(head)-1] + "\n")
+			}
+			//---------file name
+			matchHead, _ := regexp.MatchString("<span>", head)
+			if !matchHead {
+				dataFile.WriteString("h=" + head[1:len(head)-1] + "\n")
+			}
 		}
 	}
 	return nil
