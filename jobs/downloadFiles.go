@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"safari_downloader/conf"
@@ -36,16 +37,19 @@ func DownloadFiles(config *conf.Config) error {
 	}
 
 	var c int64
+	var file string
+
 	//----------read lines
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		line := scanner.Text()
-
+		location := config.Destination
 		//----------file
 		head := strings.HasPrefix(line, "h=")
 		if head {
 			count(c)
-			info(" : " + strings.TrimLeft(line, "h="))
+			file = strings.TrimLeft(line, "h=")
+			info(" : " + file)
 			c++
 		}
 		//---------folder
@@ -55,7 +59,7 @@ func DownloadFiles(config *conf.Config) error {
 			f := strings.TrimLeft(line, "f=")
 			msg(f)
 			//----------create folder
-			location := config.Destination + "/" + strings.Replace(f, "/", "-", 5)
+			location = config.Destination + "/" + strings.Replace(f, "/", "-", 5)
 			if _, err := os.Stat(location); os.IsNotExist(err) {
 				err = os.Mkdir(location, 0775)
 				if err != nil {
@@ -67,18 +71,37 @@ func DownloadFiles(config *conf.Config) error {
 		link := strings.HasPrefix(line, "l=")
 		if link {
 			url := config.Prefix + strings.TrimRight(strings.TrimLeft(line, "l=\""), "\"")
-			fmt.Println("url::::::::::::::::", url)
-			video, err := http.Get(url)
+			err = videoDLWorker(location, file, url)
 			if err != nil {
 				return err
 			}
-			defer video.Body.Close()
-			// fmt.Println(video)
 		}
 	}
 	//--------error check for reading file content
 	if err := scanner.Err(); err != nil {
 		return errors.New("read result file failed")
+	}
+	return nil
+}
+
+func videoDLWorker(dest string, file string, target string) error {
+	resp, err := http.Get(target)
+	if err != nil {
+		return err
+	}
+	fmt.Println("video info :", resp.ContentLength)
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return errors.New("non 200 status code received")
+	}
+	out, err := os.Create(dest + "/" + file + ".mp4")
+	if err != nil {
+		return err
+	}
+	_, err = io.Copy(out, resp.Body)
+	if err != nil {
+		return err
 	}
 	return nil
 }

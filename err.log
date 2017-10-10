@@ -1,3 +1,8 @@
 ERROR :2017/10/10 12:13:31 main.go:31: mkdir /home/georgekutty/Documents/safari: file exists
 ERROR :2017/10/10 14:57:35 main.go:28: mkdir /home/georgekutty/Documents/safari/Lesson 11: Parallel Programming with the Fork/Join Framework: no such file or directory
 ERROR :2017/10/10 17:53:51 main.go:28: Get %22/library/view/learning-modern-java/9780134383613/J8CC_00_Introduction.html%22: unsupported protocol scheme ""
+ERROR :2017/10/10 21:32:52 main.go:28: mkdir /home/georgekutty/Documents/safari: no such file or directory
+ERROR :2017/10/10 21:33:45 main.go:28: open /home/kutty/Documents/safari/: is a directory
+ERROR :2017/10/10 22:29:11 main.go:28: open /home/kutty/Documents/safari: is a directory
+ERROR :2017/10/10 22:29:43 main.go:28: open /home/kutty/Documents/safari/: is a directory
+ERROR :2017/10/10 22:32:17 main.go:28: open /tmp/go-build951898036/command-line-arguments/_obj/exe: is a directory
