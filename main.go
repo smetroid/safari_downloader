@@ -11,10 +11,7 @@ import (
 func main() {
 	printName("getfile")
 
-	info := color.New(color.Bold, color.FgHiMagenta).PrintlnFunc()
 	errfun := color.New(color.Bold, color.FgHiRed).PrintlnFunc()
-
-	info("#step  :  safari_downloader end.")
 	config := conf.ReadConfig()
 
 	//-------create file

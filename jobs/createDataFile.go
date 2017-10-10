@@ -54,17 +54,6 @@ func CreateDataFile(config *conf.Config) error {
 
 	result := re.FindAllString(subData, -1)
 	for _, v := range result {
-		//----------extract url from the line
-		urlreg, err := regexp.Compile(`href=\".*html\"`)
-		if err != nil {
-			return err
-		}
-		url := urlreg.FindString(v)
-
-		finalurl := strings.TrimLeft(strings.TrimLeft(url, "href="), " ")
-		if len(finalurl) != 0 {
-			dataFile.WriteString("l=" + finalurl + "\n")
-		}
 		//---------extract heading from the line
 		headreg, err := regexp.Compile(`>.*<`)
 		if err != nil {
@@ -84,6 +73,18 @@ func CreateDataFile(config *conf.Config) error {
 				dataFile.WriteString("h=" + head[1:len(head)-1] + "\n")
 			}
 		}
+		//----------extract url from the line
+		urlreg, err := regexp.Compile(`href=\".*html\"`)
+		if err != nil {
+			return err
+		}
+		url := urlreg.FindString(v)
+		//-----------remove href
+		finalurl := strings.TrimLeft(strings.TrimLeft(url, "href="), " ")
+		if len(finalurl) != 0 {
+			dataFile.WriteString("l=" + finalurl + "\n")
+		}
+
 	}
 	return nil
 }
