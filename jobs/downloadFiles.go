@@ -3,6 +3,7 @@ package jobs
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"os"
 	"os/exec"
 	"safari_downloader/conf"
@@ -70,7 +71,10 @@ func DownloadFiles(config *conf.Config) error {
 		link := strings.HasPrefix(line, "l=")
 		if link {
 			url := config.Prefix + strings.TrimRight(strings.TrimLeft(line, "l=\""), "\"")
-
+			fmt.Println("location : ", location+"/"+file+extension)
+			fmt.Println("user : ", config.User)
+			fmt.Println("pass : ", config.Pass)
+			fmt.Println("url : ", url)
 			//----------download
 			err = exec.Command("youtube-dl", "-o", location+"/"+file+extension, "-u", config.User, "-p", config.Pass, url).Run()
 			if err != nil {

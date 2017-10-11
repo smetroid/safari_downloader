@@ -65,7 +65,7 @@ func CreateDataFile(config *conf.Config) error {
 			//----------folder name
 			matchSession, _ := regexp.MatchString(`^>(Lesson|Chapter|SECTION)\s*[0-9]*\s*:`, head)
 			if matchSession {
-				dataFile.WriteString("f=" + head[1:len(head)-1] + "\n")
+				dataFile.WriteString("\n\nf=" + head[1:len(head)-1] + "\n")
 			}
 			//---------file name
 			matchHead, _ := regexp.MatchString("<span>", head)

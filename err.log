@@ -1,0 +1,6 @@
+ERROR :2017/10/11 23:16:36 main.go:31: mkdir /home/georgekutty/Documents/safari: no such file or directory
+ERROR :2017/10/11 23:19:45 main.go:31: exec: "youtube-dl": executable file not found in $PATH
+ERROR :2017/10/11 23:21:35 main.go:31: exec: "youtube-dl": executable file not found in $PATH
+ERROR :2017/10/11 23:40:49 main.go:31: exit status 1
+ERROR :2017/10/11 23:41:18 main.go:31: exit status 1
+ERROR :2017/10/11 23:42:46 main.go:31: exit status 1

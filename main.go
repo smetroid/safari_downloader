@@ -12,10 +12,13 @@ func main() {
 	printName("getfile")
 
 	errfun := color.New(color.Bold, color.FgHiRed).PrintlnFunc()
-	config := conf.ReadConfig()
-
+	config, err := conf.ReadConfig()
+	if err != nil {
+		errfun(err.Error())
+		config.Logger.Println(err.Error())
+	}
 	//-------create file
-	err := jobs.CreateDataFile(&config)
+	err = jobs.CreateDataFile(&config)
 	if err != nil {
 		errfun(err.Error())
 		config.Logger.Println(err.Error())

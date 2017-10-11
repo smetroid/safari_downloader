@@ -2,6 +2,7 @@ package conf
 
 import (
 	"encoding/json"
+	"errors"
 	"log"
 	"os"
 )
@@ -19,28 +20,27 @@ type Config struct {
 }
 
 //ReadConfig reads configuration file
-func ReadConfig() Config {
+func ReadConfig() (Config, error) {
 
+	conf := Config{}
 	//----------open configuration file
 	file, err := os.Open("conf/config.json")
 	if err != nil {
-		log.Println(err.Error())
-		log.Fatal("error occured : reading configuration file")
+		return conf, err
 	}
 
 	//---------decode
-	conf := Config{}
 	decoder := json.NewDecoder(file)
 	err = decoder.Decode(&conf)
 	if err != nil {
-		log.Fatal("error occured : decoding section of configuration file")
+		return conf, errors.New("Can't read configuration file")
 	}
 
 	//-----------open error log file with proper permission
 	errlog, err := os.OpenFile(conf.File, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
-		log.Fatal("Failed to open log file : ", err.Error())
+		return conf, errors.New("Failed to open log file")
 	}
 	conf.Logger = log.New(errlog, "ERROR :", log.Ldate|log.Ltime|log.Lshortfile)
-	return conf
+	return conf, nil
 }
