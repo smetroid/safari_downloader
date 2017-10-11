@@ -3,15 +3,15 @@ package jobs
 import (
 	"bufio"
 	"errors"
-	"fmt"
-	"io"
-	"net/http"
 	"os"
+	"os/exec"
 	"safari_downloader/conf"
 	"strings"
 
 	"github.com/fatih/color"
 )
+
+const extension = ".mp4"
 
 //DownloadFiles handling downloading of documents
 func DownloadFiles(config *conf.Config) error {
@@ -37,13 +37,12 @@ func DownloadFiles(config *conf.Config) error {
 	}
 
 	var c int64
+	location := config.Destination
 	var file string
-
 	//----------read lines
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		line := scanner.Text()
-		location := config.Destination
 		//----------file
 		head := strings.HasPrefix(line, "h=")
 		if head {
@@ -71,7 +70,9 @@ func DownloadFiles(config *conf.Config) error {
 		link := strings.HasPrefix(line, "l=")
 		if link {
 			url := config.Prefix + strings.TrimRight(strings.TrimLeft(line, "l=\""), "\"")
-			err = videoDLWorker(location, file, url)
+
+			//----------download
+			err = exec.Command("youtube-dl", "-o", location+"/"+file+extension, "-u", config.User, "-p", config.Pass, url).Run()
 			if err != nil {
 				return err
 			}
@@ -80,28 +81,6 @@ func DownloadFiles(config *conf.Config) error {
 	//--------error check for reading file content
 	if err := scanner.Err(); err != nil {
 		return errors.New("read result file failed")
-	}
-	return nil
-}
-
-func videoDLWorker(dest string, file string, target string) error {
-	resp, err := http.Get(target)
-	if err != nil {
-		return err
-	}
-	fmt.Println("video info :", resp.ContentLength)
-	defer resp.Body.Close()
-
-	if resp.StatusCode != 200 {
-		return errors.New("non 200 status code received")
-	}
-	out, err := os.Create(dest + "/" + file + ".mp4")
-	if err != nil {
-		return err
-	}
-	_, err = io.Copy(out, resp.Body)
-	if err != nil {
-		return err
 	}
 	return nil
 }

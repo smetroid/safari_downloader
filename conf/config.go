@@ -6,11 +6,12 @@ import (
 	"os"
 )
 
+//Config respresent credentials struct in our application
 type Config struct {
-	Url         string `json:"url"`
+	URL         string `json:"url"`
 	Prefix      string `json:"prefix"`
 	User        string `json:"username"`
-	Pass        string `json:"pass"`
+	Pass        string `json:"password"`
 	File        string `json:"errlog"`
 	DataFile    string `json:"datafile"`
 	Destination string `json:"destination"`

@@ -13,7 +13,7 @@ import (
 //CreateDataFile create formated files with neccessary data from url
 func CreateDataFile(config *conf.Config) error {
 	//---------get url
-	res, err := http.Get(config.Url)
+	res, err := http.Get(config.URL)
 	if err != nil {
 		return err
 	}
