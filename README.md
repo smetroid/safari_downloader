@@ -12,7 +12,7 @@
 ## configure
    ###### maternity input arguments. 
   ```
-      1. -l       url         [url point to the safaribooksonline tutorial]
-      2. -u       username    [safaribooksonline username]
-      3. -p       password    [safaribooksonline  password]
+       -l       url         [url point to the safaribooksonline tutorial]
+       -u       username    [safaribooksonline username]
+       -p       password    [safaribooksonline  password]
   ```
