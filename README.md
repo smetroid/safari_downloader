@@ -7,7 +7,7 @@
 
 ## usage
   
-   1. `go get github.com/Kutty1995/safari_downloader`
+    `go get github.com/Kutty1995/safari_downloader`
 
 ## configure
    ###### maternity input arguments. 
