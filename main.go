@@ -19,6 +19,7 @@ func main() {
 	link := flag.String("l", "", "hint : -l  https://www.safaribooksonline.com [url]")
 	username := flag.String("u", "", "hint : -u username [username]")
 	password := flag.String("p", "", "hint : -p password [password]")
+	dest := flag.String("d", "", "hint : -p password [password]")
 
 	flag.Parse()
 	//------url
@@ -38,7 +39,7 @@ func main() {
 	}
 
 	//-----read configuration
-	config, err := conf.ReadConfig(link, username, password)
+	config, err := conf.ReadConfig(link, username, password, dest)
 	if err != nil {
 		errfun(err.Error())
 		config.Logger.Println(err.Error())
@@ -49,6 +50,7 @@ func main() {
 	if err != nil {
 		errfun(err.Error())
 		config.Logger.Println(err.Error())
+		os.Exit(-1)
 	}
 
 	//------download all files
@@ -56,6 +58,7 @@ func main() {
 	if err != nil {
 		errfun(err.Error())
 		config.Logger.Println(err.Error())
+		os.Exit(-1)
 	}
 }
 

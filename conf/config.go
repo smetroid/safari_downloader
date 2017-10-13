@@ -5,6 +5,7 @@ import (
 	"errors"
 	"log"
 	"os"
+	"os/user"
 )
 
 //Config respresent credentials struct in our application
@@ -20,7 +21,7 @@ type Config struct {
 }
 
 //ReadConfig reads configuration file
-func ReadConfig(url *string, user *string, pass *string) (Config, error) {
+func ReadConfig(url *string, username *string, pass *string, dest *string) (Config, error) {
 
 	conf := Config{}
 	//----------open configuration file
@@ -38,8 +39,19 @@ func ReadConfig(url *string, user *string, pass *string) (Config, error) {
 
 	//-------credentials
 	conf.URL = *url
-	conf.User = *user
+	conf.User = *username
 	conf.Pass = *pass
+
+	//-------downloaded location
+	if *dest == "" {
+		usr, err := user.Current()
+		if err != nil {
+			return conf, err
+		}
+		conf.Destination = usr.HomeDir + "/Documents/safari"
+	} else {
+		conf.Destination = *dest
+	}
 
 	//----------- error log
 	errlog, err := os.OpenFile(conf.File, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)

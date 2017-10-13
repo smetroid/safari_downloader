@@ -10,12 +10,12 @@ import (
 	"strings"
 )
 
-//CreateDataFile create formated files with neccessary data from url
+//CreateDataFile create formated files with necessary data from url
 func CreateDataFile(config *conf.Config) error {
 	//---------get url
 	res, err := http.Get(config.URL)
 	if err != nil {
-		return err
+		return errors.New("url error : unsupported url")
 	}
 
 	defer res.Body.Close()
@@ -32,6 +32,7 @@ func CreateDataFile(config *conf.Config) error {
 	} else if !strings.Contains(fullData, "href") {
 		return errors.New("There is no video documents exits in this link")
 	}
+
 	//--------- extract all documents links form table of contents
 	subData := fullData[index:]
 	re, err := regexp.Compile(`<a.*>`)

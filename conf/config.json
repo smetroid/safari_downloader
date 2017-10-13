@@ -1,6 +1,5 @@
 {
     "prefix":"https://www.safaribooksonline.com",
     "errlog":"err.log",
-    "datafile":"data.txt",
-    "destination":"~/Documents/safari"
+    "datafile":"data.txt"
 }
