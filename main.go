@@ -5,6 +5,7 @@ import (
 	"os"
 	"safari_downloader/conf"
 	"safari_downloader/jobs"
+	"strings"
 
 	"github.com/fatih/color"
 	"github.com/hifx/banner"
@@ -13,6 +14,8 @@ import (
 func main() {
 	//-------banner
 	printName("getfile")
+
+	msg := color.New(color.Bold, color.FgHiBlue).PrintlnFunc()
 	errfun := color.New(color.Bold, color.FgHiRed).PrintlnFunc()
 
 	//-------command arguments
@@ -26,6 +29,11 @@ func main() {
 	if *link == "" {
 		errfun("Error : please provide site url")
 		os.Exit(-1)
+	} else {
+		i := strings.Index(*link, ".html")
+		if i > 0 {
+			msg("Info : enter home page url for downloading all videos")
+		}
 	}
 	//------username
 	if *username == "" {
