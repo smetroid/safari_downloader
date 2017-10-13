@@ -11,8 +11,12 @@
 
 ## configure
    ###### maternity input arguments. 
-  ```
+   ```
        -l       url         [url point to the safaribooksonline tutorial]
        -u       username    [safaribooksonline username]
        -p       password    [safaribooksonline  password]
-  ```
+   ```
+   ###### optional input arguments. 
+   ```
+      -d      directory path  [where you need to store downloaded file]
+   ```
