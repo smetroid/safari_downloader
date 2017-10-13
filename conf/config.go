@@ -20,7 +20,7 @@ type Config struct {
 }
 
 //ReadConfig reads configuration file
-func ReadConfig() (Config, error) {
+func ReadConfig(url *string, user *string, pass *string) (Config, error) {
 
 	conf := Config{}
 	//----------open configuration file
@@ -36,11 +36,17 @@ func ReadConfig() (Config, error) {
 		return conf, errors.New("Can't read configuration file")
 	}
 
-	//-----------open error log file with proper permission
+	//-------credentials
+	conf.URL = *url
+	conf.User = *user
+	conf.Pass = *pass
+
+	//----------- error log
 	errlog, err := os.OpenFile(conf.File, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		return conf, errors.New("Failed to open log file")
 	}
+
 	conf.Logger = log.New(errlog, "ERROR :", log.Ldate|log.Ltime|log.Lshortfile)
 	return conf, nil
 }

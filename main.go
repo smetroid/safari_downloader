@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+	"os"
 	"safari_downloader/conf"
 	"safari_downloader/jobs"
 
@@ -9,15 +11,40 @@ import (
 )
 
 func main() {
+	//-------banner
 	printName("getfile")
-
 	errfun := color.New(color.Bold, color.FgHiRed).PrintlnFunc()
-	config, err := conf.ReadConfig()
+
+	//-------command arguments
+	link := flag.String("l", "", "hint : -l  https://www.safaribooksonline.com [url]")
+	username := flag.String("u", "", "hint : -u username [username]")
+	password := flag.String("p", "", "hint : -p password [password]")
+
+	flag.Parse()
+	//------url
+	if *link == "" {
+		errfun("Error : please provide site url")
+		os.Exit(-1)
+	}
+	//------username
+	if *username == "" {
+		errfun("Error : please provide username")
+		os.Exit(-1)
+	}
+	//------password
+	if *password == "" {
+		errfun("Error : please provide password")
+		os.Exit(-1)
+	}
+
+	//-----read configuration
+	config, err := conf.ReadConfig(link, username, password)
 	if err != nil {
 		errfun(err.Error())
 		config.Logger.Println(err.Error())
+		os.Exit(-1)
 	}
-	//-------create file
+	//-------create files
 	err = jobs.CreateDataFile(&config)
 	if err != nil {
 		errfun(err.Error())
