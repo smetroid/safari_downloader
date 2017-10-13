@@ -3,6 +3,7 @@ package jobs
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"os"
 	"os/exec"
 	"safari_downloader/conf"
@@ -39,9 +40,11 @@ func DownloadFiles(config *conf.Config) error {
 	var c int64
 	location := config.Destination
 	var file string
+
 	//----------read lines
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
+
 		line := scanner.Text()
 		//----------file
 		head := strings.HasPrefix(line, "h=")
@@ -49,7 +52,6 @@ func DownloadFiles(config *conf.Config) error {
 			count(c)
 			file = strings.TrimLeft(line, "h=")
 			info(" : " + file)
-			c++
 		}
 		//---------folder
 		folder := strings.HasPrefix(line, "f=")
@@ -70,12 +72,12 @@ func DownloadFiles(config *conf.Config) error {
 		link := strings.HasPrefix(line, "l=")
 		if link {
 			url := config.Prefix + strings.TrimRight(strings.TrimLeft(line, "l=\""), "\"")
-
 			//----------download
-			err = exec.Command("youtube-dl", "-o", location+"/"+file+extension, "-u", config.User, "-p", config.Pass, url).Run()
+			err = exec.Command("youtube-dl", "-o", location+"/"+fmt.Sprintf("%02d", c)+"-"+file+extension, "-u", config.User, "-p", config.Pass, url).Run()
 			if err != nil {
 				return err
 			}
+			c++
 		}
 	}
 	//--------error check for reading file content
