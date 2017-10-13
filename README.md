@@ -20,4 +20,4 @@
    ```
        -d        directory     where you need to store downloaded file
    ```
-   **default downloaded path** : _$HOME/Documents/safari_
+   ##### default downloaded path : _$HOME/Documents/safari_
