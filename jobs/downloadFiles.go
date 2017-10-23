@@ -12,10 +12,16 @@ import (
 	"github.com/fatih/color"
 )
 
-const extension = ".mp4"
-
 //DownloadFiles handling downloading of documents
 func DownloadFiles(config *conf.Config) error {
+
+	//---------extension
+	var extension string
+	if config.DType == "video" {
+		extension = ".mp4"
+	} else {
+		extension = ".pdf"
+	}
 
 	//----------display msg funcs
 	info := color.New(color.Bold, color.FgHiMagenta).PrintlnFunc()
@@ -71,11 +77,14 @@ func DownloadFiles(config *conf.Config) error {
 		//--------link
 		link := strings.HasPrefix(line, "l=")
 		if link {
-			url := config.Prefix + strings.TrimRight(strings.TrimLeft(line, "l=\""), "\"")
-			//----------download
-			err = exec.Command("youtube-dl", "-o", location+"/"+fmt.Sprintf("%02d", c)+"-"+file+extension, "-u", config.User, "-p", config.Pass, url).Run()
+			_, err := os.Stat(location + "/" + fmt.Sprintf("%02d", c) + "-" + file + extension)
 			if err != nil {
-				return err
+				url := config.Prefix + strings.TrimRight(strings.TrimLeft(line, "l=\""), "\"")
+				//----------download
+				err = exec.Command("youtube-dl", "-o", location+"/"+fmt.Sprintf("%02d", c)+"-"+file+extension, "-u", config.User, "-p", config.Pass, url).Run()
+				if err != nil {
+					return err
+				}
 			}
 			c++
 		}
