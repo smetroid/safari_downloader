@@ -1,4 +1,4 @@
-# Safari Online Downloader
+## Safari Online Downloader
 
 ### Requirements
 
@@ -12,4 +12,6 @@
    > #####  # cd $GOPATH/src/github.com/kutty1995/safari_downloader
    
    > #####  # go run main.go
+  
+#### default downloaded location : `$HOME/Documents/safari`
     
