@@ -10,6 +10,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/hifx/banner"
+	"github.com/howeyc/gopass"
 )
 
 //UserInputs represent user input values
@@ -42,10 +43,12 @@ func main() {
 	//---- password
 	for inputs.Password == "" {
 		msg("\nEnter password :")
-		inputs.Password, _ = reader.ReadString('\n')
-		inputs.Password = strings.TrimSpace(inputs.Password)
-		if inputs.Password == "" {
-			errfun("\nEnter password for safaribooksonline !")
+		maskedPassword, err := gopass.GetPasswdMasked()
+		if err == nil {
+			inputs.Password = strings.TrimSpace(string(maskedPassword))
+			if inputs.Password == "" {
+				errfun("\nEnter password for safaribooksonline !")
+			}
 		}
 	}
 	//---- link
@@ -74,7 +77,7 @@ func main() {
 	var res string
 	var validRes bool
 	if res == "" || !validRes {
-		msg("\n you need any custom location[default : $HOME/Documents/safari] for store files[y/n] :")
+		msg("\nyou need any custom location for store files[y/n] :")
 		res, _ = reader.ReadString('\n')
 		res = strings.TrimSpace(res)
 		if res == "" {
@@ -118,8 +121,7 @@ func main() {
 	err = jobs.CreateDataFile(&config)
 	if err != nil {
 		errfun(err.Error())
-		config.Logger.Println(err.Error())
-		os.Exit(-1)
+		config.Logger.Println(err.Error()) * **os.Exit(-1)
 	}
 
 	//------download all files
