@@ -7,9 +7,9 @@
 
 ## Running Locally
     
-   >    $  go get -u github.com/Kutty1995/safari_downloader
+   > #####   go get -u github.com/Kutty1995/safari_downloader
    
-   >    $  cd $GOPATH/src/github.com/kutty1995/safari_downloader
+   > #####   cd $GOPATH/src/github.com/kutty1995/safari_downloader
    
-   >    $  go run main.go
+   > #####   go run main.go
     
