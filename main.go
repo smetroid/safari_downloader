@@ -17,7 +17,6 @@ type UserInputs struct {
 	Username string
 	Password string
 	Link     string
-	DType    string
 	Dest     string
 }
 
@@ -71,22 +70,6 @@ func main() {
 			}
 		}
 	}
-	//---- document type
-	var validDType bool
-	for inputs.DType == "" || !validDType {
-		msg("\nEnter document type(video/pdf) :")
-		inputs.DType, _ = reader.ReadString('\n')
-		inputs.DType = strings.TrimSpace(inputs.DType)
-		if inputs.DType == "" {
-			errfun("\nEnter document type!")
-		} else {
-			if inputs.DType != "video" && inputs.DType != "pdf" {
-				errfun("\nEnter valid document type!")
-			} else {
-				validDType = true
-			}
-		}
-	}
 	//--- custom location need or not?
 	var res string
 	var validRes bool
@@ -125,7 +108,7 @@ func main() {
 
 	}
 	//-----read configuration
-	config, err := conf.ReadConfig(&inputs.Link, &inputs.Username, &inputs.Password, &inputs.Dest, &inputs.DType)
+	config, err := conf.ReadConfig(&inputs.Link, &inputs.Username, &inputs.Password, &inputs.Dest)
 	if err != nil {
 		errfun(err.Error())
 		config.Logger.Println(err.Error())
@@ -133,13 +116,7 @@ func main() {
 	}
 	//-------create files
 	err = jobs.CreateDataFile(&config)
-	if err != nil { // err = jobs.DownloadFiles(&config)
-		// if err != nil {
-		// 	errfun(err.Error())
-		// 	config.Logger.Println(err.Error())
-		// 	os.Exit(-1)
-		// }
-
+	if err != nil {
 		errfun(err.Error())
 		config.Logger.Println(err.Error())
 		os.Exit(-1)

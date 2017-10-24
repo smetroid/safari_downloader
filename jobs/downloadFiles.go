@@ -12,16 +12,10 @@ import (
 	"github.com/fatih/color"
 )
 
+const extension = ".mp4"
+
 //DownloadFiles handling downloading of documents
 func DownloadFiles(config *conf.Config) error {
-
-	//---------extension
-	var extension string
-	if config.DType == "video" {
-		extension = ".mp4"
-	} else {
-		extension = ".pdf"
-	}
 
 	//----------display msg funcs
 	info := color.New(color.Bold, color.FgHiMagenta).PrintlnFunc()

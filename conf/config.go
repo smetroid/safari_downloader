@@ -16,13 +16,12 @@ type Config struct {
 	Pass        string `json:"password"`
 	File        string `json:"errlog"`
 	DataFile    string `json:"datafile"`
-	DType       string `json:"document_type"`
 	Destination string `json:"destination"`
 	Logger      *log.Logger
 }
 
 //ReadConfig reads configuration file
-func ReadConfig(url *string, username *string, pass *string, dest *string, dType *string) (Config, error) {
+func ReadConfig(url *string, username *string, pass *string, dest *string) (Config, error) {
 
 	conf := Config{}
 	//----------open configuration file
@@ -42,7 +41,6 @@ func ReadConfig(url *string, username *string, pass *string, dest *string, dType
 	conf.URL = *url
 	conf.User = *username
 	conf.Pass = *pass
-	conf.DType = *dType
 
 	//-------downloaded location
 	if *dest == "" {
