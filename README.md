@@ -11,16 +11,3 @@
        $  cd $GOPATH/src/github.com/kutty1995/safari_downloader
        $  go run main.go
    ``` 
-
-## Configure
-   ###### maternity input arguments. 
-   ```
-       -l        url           url point to the safaribooksonline tutorial
-       -u        username      safaribooksonline username
-       -p        password      safaribooksonline  password
-   ```
-   ###### optional input arguments. 
-   ```
-       -d        directory     where you need to store downloaded file
-   ```
-   ##### default destination : _$HOME/Documents/safari_
