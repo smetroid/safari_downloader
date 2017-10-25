@@ -121,7 +121,8 @@ func main() {
 	err = jobs.CreateDataFile(&config)
 	if err != nil {
 		errfun(err.Error())
-		config.Logger.Println(err.Error()) * **os.Exit(-1)
+		config.Logger.Println(err.Error())
+		os.Exit(-1)
 	}
 
 	//------download all files
