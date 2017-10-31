@@ -2,11 +2,11 @@ package jobs
 
 import (
 	"errors"
+	"github.com/smetroid/safari_downloader/conf"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"regexp"
-	"safari_downloader/conf"
 	"strings"
 )
 

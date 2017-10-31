@@ -2,10 +2,10 @@ package main
 
 import (
 	"bufio"
+	"github.com/smetroid/safari_downloader/conf"
+	"github.com/smetroid/safari_downloader/jobs"
 	"net/url"
 	"os"
-	"safari_downloader/conf"
-	"safari_downloader/jobs"
 	"strings"
 
 	"github.com/fatih/color"

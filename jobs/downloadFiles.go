@@ -4,9 +4,9 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
+	"github.com/smetroid/safari_downloader/conf"
 	"os"
 	"os/exec"
-	"safari_downloader/conf"
 	"strings"
 
 	"github.com/fatih/color"
